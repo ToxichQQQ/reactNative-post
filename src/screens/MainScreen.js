@@ -1,11 +1,20 @@
 import React from 'react'
-import {View,Text,StyleSheet} from 'react-native'
+import {View,Text,StyleSheet,FlatList} from 'react-native'
+import {DATA} from "../data";
+import {Post} from "../Post";
 
 
-export function MainScreen({}) {
+export function MainScreen({navigation}) {
+    const handleOpenPostScreen = (post) => {
+        navigation.navigate('Post',{post})
+    }
+
+
     return(
         <View style={styles.container}>
-            <Text>MainScreen</Text>
+            <FlatList data={DATA} keyExtractor={post => post.id.toString()}
+                      renderItem={({item}) => <Post post={item} onOpen={handleOpenPostScreen}/>}
+            />
         </View>
     )
 }
@@ -14,7 +23,5 @@ export function MainScreen({}) {
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        justifyContent:'center',
-        alignItems:'center'
     }
 })
