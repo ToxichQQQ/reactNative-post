@@ -1,4 +1,3 @@
-import {StyleSheet} from 'react-native';
 import AppLoading from 'expo-app-loading'
 import React, {useState} from "react";
 import {bootstrap} from "./src/bootstrap";
@@ -13,9 +12,9 @@ import {THEME} from "./src/theme";
 import {HeaderIcon} from "./src/components/HeaderIcon";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {Ionicons} from '@expo/vector-icons'
 
-
-export default function App({navigation}) {
+export default function App({}) {
     const [isReady, setReady] = useState(false)
 
     if (!isReady) {
@@ -40,30 +39,31 @@ export default function App({navigation}) {
                 headerShown: false
             }}
         >
-            <TabStack.Screen  name='Main' component={MainScreen} options={{tabBarButton: () => null}}/>
+            <TabStack.Screen name='Main' component={MainScreen} options={{tabBarButton: () => null}}/>
             <TabStack.Screen name='Book' component={BookmarkedScreen}
-                             options={{title: "Bookmark", headerStyle: titleStyles, headerTintColor: titleColor}}/>
-            <TabStack.Screen name='Create' component={CreateScreen} options={{
-                title: "Create new post",
-                headerStyle: titleStyles,
-                headerTintColor: titleColor
+                             options={{
+                                 tabBarLabel: "Bookmark",
+                                 tabBarStyle: titleStyles,
+                                 headerTintColor: titleColor,
+                                 tabBarIcon: ({color}) => <Ionicons color={color} name='ios-star' size={25}/>
+                             }}/>
+            <TabStack.Screen name='Posts' component={MainScreen} options={{
+                tabBarLabel: "All",
+                tabBarStyle: titleStyles,
+                headerTintColor: titleColor,
+                tabBarIcon: ({color}) => <Ionicons color={color} name='ios-albums' size={25}/>
             }}/>
         </TabStack.Navigator>
     }
 
-
     return <NavigationContainer>
         <NavStack.Navigator>
-            <NavStack.Screen name='Home' component={Tab} options={{
+            <NavStack.Screen name='Home' component={Tab} options={({navigation}) => ({
                 title: "My blog", headerStyle: titleStyles, headerTintColor: titleColor,
-                headerLeft: () => <HeaderButtons HeaderButtonComponent={HeaderIcon}>
-                    <Item title='booked' iconName='ios-menu-outline' onPress={() => console.log(navigator)}/>
-                </HeaderButtons>,
                 headerRight: () => <HeaderButtons HeaderButtonComponent={HeaderIcon}>
-                    <Item title='write' iconName='ios-add-circle-outline' onPress={() => console.log('menu')}/>
-                    <Item title="search" iconName="ios-camera" onPress={() => alert('search')}/>
+                    <Item title="search" iconName="ios-camera" onPress={() => navigation.navigate('Create')}/>
                 </HeaderButtons>
-            }}/>
+            })}/>
             <NavStack.Screen name='About' component={AboutScreen}
                              options={{title: "About", headerStyle: titleStyles, headerTintColor: titleColor}}/>
             <NavStack.Screen name='Post' component={PostScreen} options={({route}) => ({
@@ -75,15 +75,8 @@ export default function App({navigation}) {
                           onPress={() => console.log('menu')}/>
                 </HeaderButtons>
             })}/>
+            <NavStack.Screen name='Create' component={CreateScreen}
+                             options={{title: "Create Post", headerStyle: titleStyles, headerTintColor: titleColor}}/>
         </NavStack.Navigator>
     </NavigationContainer>
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
