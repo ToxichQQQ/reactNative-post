@@ -7,7 +7,7 @@ export function Post({post,onOpen}) {
     <View style={styles.container}>
         <ImageBackground style={styles.background} source={{ uri: post.img }}>
                 <View style={styles.textWrap}>
-                    <Text>{new Date(post.date).toLocaleDateString()}</Text>
+                    <Text style={styles.title}>{new Date(post.date).toLocaleDateString()}</Text>
                 </View>
         </ImageBackground>
     </View>
