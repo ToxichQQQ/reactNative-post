@@ -5,16 +5,6 @@ import {AboutScreen} from "../screens/AboutScreen";
 import {PostScreen} from "../screens/PostScreen";
 
 
-const PostNavigator = createStackNavigator({
-    Main: MainScreen,
-    About: AboutScreen,
-    Post:{
-        screen:PostScreen
-    },
-},{
-    initialRouteName: MainScreen
-    }
-)
+export function AppNavigation() {
 
-
-export const AppNavigation = createAppContainer(PostNavigator)
+}

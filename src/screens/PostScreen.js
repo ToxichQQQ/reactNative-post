@@ -1,10 +1,16 @@
-import React from 'react'
+import React, {useCallback, useEffect} from 'react'
 import {Alert,View,Text,StyleSheet,Image,Button,ScrollView} from 'react-native'
 import {THEME} from "../theme";
+import {useDispatch, useSelector} from "react-redux";
+import {actionRemovePost, actionToggleBooked} from "../redux/post/postAction";
 
 
-export function PostScreen({route}) {
+export function PostScreen({route,navigation}) {
     const post = route.params.post
+    const dispatch = useDispatch()
+    const booked = useSelector(state => state.post.bookedPosts.some(item => item.id === post.id ))
+
+
 
     const handleRemovePost = (id) => {
         Alert.alert(
@@ -17,13 +23,29 @@ export function PostScreen({route}) {
                 },
                 {
                     text: "Delete",
-                    onPress: () => console.log('Delete'),
+                    onPress: () => {
+                        navigation.navigate('Home')
+                        dispatch(actionRemovePost(post.id))
+                    },
                     style:'destructive'
                 }
             ],
             {cancelable: true}
         )
     }
+
+    const toggleHandler = useCallback(() => {
+        dispatch(actionToggleBooked(post.id))
+    },[dispatch,post.id])
+
+
+    useEffect(()=>{
+        navigation.setParams({booked})
+    },[booked])
+
+    useEffect(() => {
+        navigation.setParams({toggleHandler})
+    },[toggleHandler])
 
     return(
         <ScrollView style={styles.container}>

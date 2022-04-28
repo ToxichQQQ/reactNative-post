@@ -1,13 +1,17 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {DATA} from "../data";
 import {PostsList} from "../components/PostsList";
+import {useDispatch, useSelector} from "react-redux";
 
 
 export function BookmarkedScreen({navigation}) {
+    const bookedPosts = useSelector(state => state.post.bookedPosts)
+
+
     const handleOpenPostScreen = (post) => {
         navigation.navigate('Post', {post})
     }
 
-    return <PostsList data={DATA.filter(post => post.booked)} open={handleOpenPostScreen}/>
+    return <PostsList data={bookedPosts} open={handleOpenPostScreen}/>
 }
 

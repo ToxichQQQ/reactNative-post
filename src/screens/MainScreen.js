@@ -1,12 +1,21 @@
-import React from 'react'
-import {DATA} from "../data";
+import React, {useEffect} from 'react'
 import {PostsList} from "../components/PostsList";
+import {useDispatch, useSelector} from "react-redux";
+import {actionLoadPost} from "../redux/post/postAction";
 
 
 export function MainScreen({navigation}) {
+    const dispatch = useDispatch()
+    const posts = useSelector(state => state.post.allPosts)
+
+
     const handleOpenPostScreen = (post) => {
         navigation.navigate('Post', {post})
     }
 
-    return <PostsList data={DATA} open={handleOpenPostScreen}/>
+    useEffect(() => {
+        dispatch(actionLoadPost())
+    },[dispatch])
+
+    return <PostsList data={posts} open={handleOpenPostScreen}/>
 }
