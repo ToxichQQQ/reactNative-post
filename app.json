@@ -1,9 +1,10 @@
 {
   "expo": {
-    "name": "RN-posts",
-    "slug": "RN-posts",
+    "name": "Self blog",
+    "slug": "Self_blog",
     "version": "1.0.0",
     "orientation": "portrait",
+    "platforms": ["android"],
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
@@ -20,6 +21,9 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.storozhenkodev.selfBlog",
+      "versionCode": 1,
+      "permissions": ["CAMERA","WRITE_EXTERNAL_STORAGE"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
