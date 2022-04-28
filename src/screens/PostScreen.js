@@ -35,8 +35,8 @@ export function PostScreen({route,navigation}) {
     }
 
     const toggleHandler = useCallback(() => {
-        dispatch(actionToggleBooked(post.id))
-    },[dispatch,post.id])
+        dispatch(actionToggleBooked(post))
+    },[dispatch,post])
 
 
     useEffect(()=>{

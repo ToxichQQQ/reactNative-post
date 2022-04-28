@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react'
-import {DATA} from "../data";
 import {PostsList} from "../components/PostsList";
 import {useDispatch, useSelector} from "react-redux";
 

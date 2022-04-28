@@ -1,22 +1,28 @@
-import React, {useState} from 'react'
+import React, {useRef, useState} from 'react'
 import {View, Text, StyleSheet, ScrollView, Button, TouchableWithoutFeedback, Image,Keyboard, TextInput} from 'react-native'
 import {useDispatch} from "react-redux";
 import {actionAddNewPost} from "../redux/post/postAction";
+import {PhotoPicker} from "../components/PhotoPicker";
 
 
 export function CreateScreen({navigation}) {
     const [text,setText] = useState('')
     const dispatch = useDispatch()
-    const img = 'https://static.coindesk.com/wp-content/uploads/2019/01/shutterstock_1012724596-860x430.jpg'
+    const imgRef = useRef()
+
 
     const handleAddNewPost = () => {
         const post = {
             date: new Date().toJSON(),
             text,
-            img,
+            img: imgRef.current,
             booked:false
         }
         dispatch(actionAddNewPost(post))
+    }
+
+    const handlePickImage = (uri) => {
+        imgRef.current = uri
     }
 
     return (
@@ -24,12 +30,13 @@ export function CreateScreen({navigation}) {
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                 <View style={styles.container}>
                     <TextInput value={text} onChangeText={setText} placeholder='Type your text' multiline style={styles.input}/>
-                    <Image style={styles.img}
-                           source={{uri: img}}/>
+                   <PhotoPicker onPick={handlePickImage}/>
                     <Button title='Create new post' onPress={() => {
                         navigation.navigate('Home')
                         handleAddNewPost()
-                    }}/>
+                    }}
+                    disable={!text}
+                    />
                 </View>
             </TouchableWithoutFeedback>
         </ScrollView>
